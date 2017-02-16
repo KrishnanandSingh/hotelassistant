@@ -2,6 +2,9 @@
   "name": "udemy-nodejs-angular2",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "6.9.4"
+  },
   "scripts": {
     "start": "node ./bin/www",
     "vendor": "gulp vendor",
