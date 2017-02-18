@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/', index);
 app.use('/api/locate', locate);
-app.use('/api/hook', hook);
+app.use('/webhook', hook);
 app.use('/api/registeredService', registeredService);
 
 // catch 404 and forward to error handler

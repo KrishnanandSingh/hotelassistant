@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Location = mongoose.model('Location');
 var router = express.Router();
 
-router.post('/hook', function (req, res) {
+router.post('/', function (req, res) {
   console.log('hook request');
   if(req.body) {
     var requestBody = req.body;
@@ -12,7 +12,6 @@ router.post('/hook', function (req, res) {
         var action = requestBody.result.action;
         var parameters = requestBody.result.parameters;
         response = ActionHandler(action,parameters,res);
-        console.log(response);
       }
     }
   }
@@ -22,7 +21,6 @@ function ActionHandler(action,parameters,res){
     switch (action) {
       case 'locate':
         name = parameters.HotelLocations.toLowerCase();
-        console.log(name);
         Location.findOne({"tags":name}, function(err,location){
           if(err){
             response += "Unable to find";
