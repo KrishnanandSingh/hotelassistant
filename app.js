@@ -8,6 +8,7 @@ var location = require('./models/location');
 
 var index = require('./routes/index');
 var locate = require('./routes/locate');
+var hook = require('./routes/hook');
 
 var app = express();
 
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/', index);
 app.use('/api/locate', locate);
+app.use('/api/hook', hook);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
