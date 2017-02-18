@@ -1,64 +1,46 @@
 var express = require('express');
 var mongoose = require('mongoose');
-
+var Location = mongoose.model('Location');
 var router = express.Router();
 
 router.post('/hook', function (req, res) {
-    console.log('hook request');
-    try {
-        var speech = 'empty speech';
-        if (req.body) {
-            var requestBody = req.body;
-            if (requestBody.result) {
-                speech = '';
-                /*if (requestBody.result.fulfillment) {
-                    speech += requestBody.result.fulfillment.speech;
-                    speech += ' ';
-                }*/
-                if (requestBody.result.action) {
-                    var action = requestBody.result.action;
-                    var parameters = requestBody.result.parameters;
-                    var response = ActionHandler(action,parameters);
-                    speech += response;
-                }
-            }
-        }
-
-        console.log('result: ', speech);
-
-        return res.json({
-            speech: speech,
-            displayText: speech,
-            source: 'webhook'
-        });
-    } catch (err) {
-        console.error("Can't process request", err);
-
-        return res.status(400).json({
-            status: {
-                code: 400,
-                errorType: err.message
-            }
-        });
+  console.log('hook request');
+  if(req.body) {
+    var requestBody = req.body;
+    if (requestBody.result) {
+      if (requestBody.result.action) {
+        var action = requestBody.result.action;
+        var parameters = requestBody.result.parameters;
+        response = ActionHandler(action,parameters,res);
+        console.log(response);
+      }
     }
+  }
 });
-
-function ActionHandler(action,parameters){
-    response = '';
+function ActionHandler(action,parameters,res){
+    var response = '';
     switch (action) {
       case 'locate':
-        name = parameters.HotelLocations;
-        Location.findOne({"tag":name}, function(err,path){
-        if(err){
-          response = "Unable to find";
-        }else{
-          response = location.path;
-        }});
-        break;
+        name = parameters.HotelLocations.toLowerCase();
+        console.log(name);
+        Location.findOne({"tags":name}, function(err,location){
+          if(err){
+            response += "Unable to find";
+          }else{
+            response += location.path;
+            res.json({
+               speech: response,
+               displayText: response,
+               source: 'webhook'
+           });
+          }
+        }
+      );
+      break;
       default:
-
+      break;
     }
-    return response;
+    console.log(response);
 }
 
 module.exports = router;
