@@ -19,16 +19,16 @@
     <tbody>
       <tr ng-repeat="booking in bookings | orderBy:'time'" style="cursor:pointer">
         <td>
-           {{ bookings.service }}
+           {{ booking.service }}
         </td>
         <td>
-          {{ bookings.time }}
+          {{ booking.dateTime }}
         </td>
         <td>
-           {{ bookings.comment }}
+           {{ booking.comment }}
         </td>
         <td>
-           {{ bookings.customer }}
+           {{ booking.customer }}
         </td>
         <td>
            <a class="btn btn-info" href="/complete/{{booking._id}}">Complete</a>

@@ -59,7 +59,11 @@ function locateActionHandler(name,res){
     if(err){
       return res.status(200).send("Unable to find "+ name);
     }else{
-      res.status(200).send(data.name + " is located at " + data.path);
+      res.status(200).json({
+        speech:data.path,
+        displayText:data.path,
+        source:"webhook"
+      });
     }
    });
 }
@@ -74,7 +78,12 @@ function bookingActionHandler(service,dateTime,res){
       if(err){
         return res.status(500).send();
       }else{
-        res.status(200).json(savedBooking._id);
+        var response = "Booking request for "+service+" at "+dateTime+" registered";
+        res.status(200).json({
+          speech:response,
+          displayText:response,
+          source:"webhook"
+        });
       }
   });
 }
@@ -87,7 +96,12 @@ function roomServiceActionHandler(service,res){
       if(err){
         return res.status(500).send();
       }else{
-        res.status(200).json(savedRegisteredService._id);
+        var response = "Room service request for "+service+ " registered";
+        res.status(200).json({
+          speech:response,
+          displayText:response,
+          source:"webhook"
+        });
       }
   });
 }

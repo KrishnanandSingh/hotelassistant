@@ -74,7 +74,7 @@ angular.module("hotelApp", ['ngRoute'])
     })
     .controller("RegisteredServiceList", function( $scope, RegisteredService) {
         RegisteredService.getRegisteredServices().then(function(doc) {
-            $scope.headers = ["Time", "Service", "Room", "Comment", "Actions"];
+            $scope.headers = ["Service","Comment","Room", "Actions"];
             $scope.registeredServices = doc.data;
         }, function(response) {
             alert(response);
@@ -95,7 +95,7 @@ angular.module("hotelApp", ['ngRoute'])
     })
     .controller("BookingList", function( $scope, Booking) {
         Booking.getBookings().then(function(doc) {
-            $scope.headers = ["Time", "Service", "Customer", "Comment", "Actions"];
+            $scope.headers = ["Service", "Time", "Comment", "Customer", "Actions"];
             $scope.bookings = doc.data;
         }, function(response) {
             alert(response);
