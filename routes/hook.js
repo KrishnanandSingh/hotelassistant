@@ -11,12 +11,15 @@ router.post('/hook', function (req, res) {
             var requestBody = req.body;
             if (requestBody.result) {
                 speech = '';
-                if (requestBody.result.fulfillment) {
+                /*if (requestBody.result.fulfillment) {
                     speech += requestBody.result.fulfillment.speech;
                     speech += ' ';
-                }
+                }*/
                 if (requestBody.result.action) {
-                    speech += 'action: ' + requestBody.result.action;
+                    var action = requestBody.result.action;
+                    var parameters = requestBody.result.parameters;
+                    var response = ActionHandler(action,parameters);
+                    speech += response;
                 }
             }
         }
@@ -39,5 +42,23 @@ router.post('/hook', function (req, res) {
         });
     }
 });
+
+function ActionHandler(action,parameters){
+    response = '';
+    switch (action) {
+      case 'locate':
+        name = parameters.HotelLocations;
+        Location.findOne({"tag":name}, function(err,path){
+        if(err){
+          response = "Unable to find";
+        }else{
+          response = location.path;
+        }});
+        break;
+      default:
+
+    }
+    return response;
+}
 
 module.exports = router;
