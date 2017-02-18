@@ -5,10 +5,13 @@ var bodyParser = require('body-parser');
 
 var db = require('./models/db');
 var location = require('./models/location');
+var registeredService = require('./models/registeredService');
+
 
 var index = require('./routes/index');
 var locate = require('./routes/locate');
 var hook = require('./routes/hook');
+var registeredService = require('./routes/registeredService');
 
 var app = express();
 
@@ -22,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/', index);
 app.use('/api/locate', locate);
 app.use('/api/hook', hook);
+app.use('/api/registeredService', registeredService);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,21 @@
+<div class="row" ng-hide="registeredService._id">
+  <div class="col-md-6">
+      <h2>{{header}}</h2>
+  </div>
+</div>
+<div class="container">
+  <div>
+    <p>
+      <label>First Name</label>
+      <input id="name" class="form-control" type="text" ng-model="registeredService.serveredBy" required>
+    </p>
+    <p>
+      <label>Comment</label>
+      <input id="name" class="form-control" type="text" ng-model="registeredService.serverComment" required>
+    </p>
+    <p>
+      <button style="margin-top:20px" class="btn btn-default" ng-click="markComplete(registeredService)">Save</button>
+      <button style="margin-top:20px" class="btn btn-default" ng-click="back()">Back</button>
+    </p>
+  </div>
+</div>
