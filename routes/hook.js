@@ -5,7 +5,7 @@ var Booking = mongoose.model('Booking');
 var RegisteredService = mongoose.model('RegisteredService');
 var router = express.Router();
 
-router.post('/', function (req, res) {
+router.post('/', function (req, res, next) {
   console.log('hook request');
   if(req.body) {
     var requestBody = req.body;
@@ -24,7 +24,7 @@ function ActionHandler(action,parameters,contexts,res){
       case 'locate':
         if(parameters.location){
           var name = parameters.location;
-          locateActionHandler(location);
+          locateActionHandler(name,res);
         }
         else{
           locateActionResolver(parameters);
@@ -34,7 +34,7 @@ function ActionHandler(action,parameters,contexts,res){
         if(parameters.service){
           var service = parameters.service;
           var dateTime = parameters.dateTime;
-          bookingActionHandler(service,dateTime);
+          bookingActionHandler(service,dateTime,res);
         }
         else{
           bookingActionResolver(parameters);
@@ -43,7 +43,7 @@ function ActionHandler(action,parameters,contexts,res){
       case 'roomService':
         if(parameters.service){
           var service = parameters.service;
-          roomServiceActionHandler(service);
+          roomServiceActionHandler(service,res);
         }
         else{
           roomServiceActionResolver(parameters);
@@ -52,23 +52,21 @@ function ActionHandler(action,parameters,contexts,res){
       default:
       break;
     }
-    console.log(response);
 }
 
-function locateActionHandler(location){
-  Location.findOne({"name":location}, function(err,data){
+function locateActionHandler(name,res){
+  Location.findOne({"name":name}, function(err,data){
     if(err){
-      return res.status(200).send("Unable to find "+ location);
+      return res.status(200).send("Unable to find "+ name);
     }else{
       res.status(200).send(data.name + " is located at " + data.path);
     }
    });
 }
-function bookingActionHandler(service,dateTime){
+function bookingActionHandler(service,dateTime,res){
   var newBooking=new Booking();
   newBooking.service=service;
   newBooking.dateTime=dateTime;
-  newBooking.comment=comment;
   newBooking.customer="Chitkarsh";
   newBooking.isComplete=false;
 
@@ -76,11 +74,11 @@ function bookingActionHandler(service,dateTime){
       if(err){
         return res.status(500).send();
       }else{
-        res.status(201).json(savedBooking._id);
+        res.status(200).json(savedBooking._id);
       }
   });
 }
-function roomServiceActionHandler(service){
+function roomServiceActionHandler(service,res){
   var newRegisteredService = new RegisteredService();
   newRegisteredService.service = service;
   newRegisteredService.room = "004";
@@ -89,7 +87,7 @@ function roomServiceActionHandler(service){
       if(err){
         return res.status(500).send();
       }else{
-        res.status(201).json(savedRegisteredService._id);
+        res.status(200).json(savedRegisteredService._id);
       }
   });
 }
