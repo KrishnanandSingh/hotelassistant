@@ -2,14 +2,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var registeredServiceSchema = new Schema({
-  name:  String,
-  type: String,
-  time: Date,
+  service: String,
   serveredBy: String,
   comment: String,
   room: String,
-  service : String,
-  customer : String
-
+  isComplete : Boolean
 });
+
 mongoose.model( 'RegisteredService', registeredServiceSchema );

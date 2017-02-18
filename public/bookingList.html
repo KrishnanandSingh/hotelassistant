@@ -1,7 +1,7 @@
 <div class = "row">
   <div class="col-md-11">
     <h2>
-      Registered Services
+      Bookings
     </h2>
   </div>
   <div class="col-md-1">
@@ -17,24 +17,21 @@
     </th>
     </thead>
     <tbody>
-      <tr ng-repeat="registeredService in registeredServices | orderBy:'time'" style="cursor:pointer">
+      <tr ng-repeat="booking in bookings | orderBy:'time'" style="cursor:pointer">
         <td>
-          {{ registeredService.time }}
+           {{ bookings.service }}
         </td>
         <td>
-           {{ registeredService.type }}
+          {{ bookings.time }}
         </td>
         <td>
-           {{ registeredService.room }}
+           {{ bookings.comment }}
         </td>
         <td>
-           {{ registeredService.service }}
+           {{ bookings.customer }}
         </td>
         <td>
-           {{ registeredService.customer }}
-        </td>
-        <td>
-           <a class="btn btn-info" href="#/complete/{{registeredService._id}}">Complete</a>
+           <a class="btn btn-info" href="/complete/{{booking._id}}">Complete</a>
         </td>
       </tr>
     </tbody>

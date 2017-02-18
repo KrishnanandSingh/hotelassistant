@@ -6,12 +6,13 @@ var bodyParser = require('body-parser');
 var db = require('./models/db');
 var location = require('./models/location');
 var registeredService = require('./models/registeredService');
+var booking = require('./models/booking');
 
 
 var index = require('./routes/index');
-var locate = require('./routes/locate');
 var hook = require('./routes/hook');
-var registeredService = require('./routes/registeredService');
+var bookingRoute = require('./routes/booking');
+var registeredServiceRoute = require('./routes/registeredService');
 
 var app = express();
 
@@ -23,9 +24,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/', index);
-app.use('/api/locate', locate);
+app.use('/api/booking', bookingRoute);
+app.use('/api/registeredService', registeredServiceRoute);
 app.use('/webhook', hook);
-app.use('/api/registeredService', registeredService);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

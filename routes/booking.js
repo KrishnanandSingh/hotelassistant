@@ -2,19 +2,20 @@ var express = require('express');
 var mongoose = require('mongoose');
 
 var router = express.Router();
-var RegisteredService = mongoose.model('RegisteredService');
+var Booking = mongoose.model('Booking');
 
 
 router.get('/', function(req, res, next) {
-  RegisteredService.find({}, function(err,registeredServices){
+  Booking.find({}, function(err,bookings){
     if(err){
       return res.status(500).send();
     }else{
-      res.status(200).json(registeredServices);
+      res.status(200).json(bookings);
     }
    });
 });
 
+/*
 router.put('/:id', function(req, res, next) {
   var updateEmployee = {};
   var id= new mongoose.Types.ObjectId(req.params.id);
@@ -56,5 +57,5 @@ router.post('/', function(req, res, next) {
       }
   });
 });
-
+*/
 module.exports = router;

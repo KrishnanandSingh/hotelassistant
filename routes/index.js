@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.send("employeeInfoAPI v 0.0.1");
+  res.send("webhookAPI v 0.0.1");
 });
 
 module.exports = router;
