@@ -6,15 +6,23 @@
 <div class="container">
   <div>
     <p>
-      <label>First Name</label>
-      <input id="name" class="form-control" type="text" ng-model="registeredService.serveredBy" required>
+      <label>Service</label>
+      <input class="form-control" readonly  type="text" value="{{registeredService.service}}">
     </p>
     <p>
       <label>Comment</label>
-      <input id="name" class="form-control" type="text" ng-model="registeredService.serverComment" required>
+      <input class="form-control" readonly  type="text" value="{{registeredService.comment}}" >
     </p>
     <p>
-      <button style="margin-top:20px" class="btn btn-default" ng-click="markComplete(registeredService)">Save</button>
+      <label>Room</label>
+      <input class="form-control" readonly  type="text" value="{{registeredService.room}}" >
+    </p>
+    <p>
+      <label>Service Attendant</label>
+      <input  class="form-control" type="text" ng-model="registeredService.serveredBy" required>
+    </p>
+    <p>
+      <button style="margin-top:20px" class="btn btn-default" ng-click="markComplete(registeredService)">Complete</button>
       <button style="margin-top:20px" class="btn btn-default" ng-click="back()">Back</button>
     </p>
   </div>
