@@ -16,7 +16,7 @@ angular.module("hotelApp", ['ngRoute'])
                 controller: "RegisteredServiceList",
                 templateUrl: "registeredServiceList.html"
             })
-            .when("/registeredService/complete", {
+            .when("/registeredService/:id", {
                 controller: "CompleteRegisteredService",
                 templateUrl: "completeRegisteredService.html"
             })
@@ -24,12 +24,12 @@ angular.module("hotelApp", ['ngRoute'])
                 controller: "BookingList",
                 templateUrl: "bookingList.html"
             })
-            .when("/booking/complete", {
+            .when("/booking/:id", {
                 controller: "CompleteBooking",
                 templateUrl: "CompleteBooking.html"
             })
             .otherwise({
-                redirectTo: "/"
+                redirectTo: "/registeredService"
             })
     })
     .service("RegisteredService", function($http) {
@@ -41,9 +41,17 @@ angular.module("hotelApp", ['ngRoute'])
                     alert("Error finding services.");
                 });
         }
-        this.markRegisteredServiceComplete = function( registeredService) {
-            var url = "api/registeredService/complete";
-            return $http.post(url,registeredService).
+        this.getRegisteredService = function(registeredServiceId) {
+            return $http.get("api/registeredService/"+registeredServiceId).
+                then(function(response) {
+                    return response;
+                }, function(response) {
+                    alert("Error finding service");
+                });
+        }
+        this.markRegisteredServiceComplete = function(registeredService) {
+            var url = "api/registeredService/"+registeredService._id+"/complete";
+            return $http.put(url,registeredService).
                 then(function(response) {
                     return response;
                 }, function(response) {
@@ -61,9 +69,17 @@ angular.module("hotelApp", ['ngRoute'])
                     alert("Error finding bookings.");
                 });
         }
+        this.getBooking = function(bookingId) {
+            return $http.get("api/booking/"+bookingId).
+                then(function(response) {
+                    return response;
+                }, function(response) {
+                    alert("Error finding booking");
+                });
+        }
         this.markBookingComplete = function( booking) {
-            var url = "api/booking/complete";
-            return $http.post(url,booking).
+            var url = "api/booking/"+booking._id+"/complete";
+            return $http.put(url,booking).
                 then(function(response) {
                     return response;
                 }, function(response) {
@@ -80,10 +96,17 @@ angular.module("hotelApp", ['ngRoute'])
             alert(response);
         });
     })
-    .controller("CompleteRegisteredService", function($scope, $location, RegisteredService) {
-        $scope.header="Mark RegisteredServices as Complete ";
+    .controller("CompleteRegisteredService", function($scope, $location,$routeParams, RegisteredService) {
+        RegisteredService.getRegisteredService($routeParams.id).then(function(doc) {
+          $scope.header="Mark RegisteredServices as Complete";
+          $scope.registeredService = doc.data;
+        },
+        function(response) {
+           alert(response);
+       });
+
         $scope.back = function() {
-            $location.path("#/");
+            $location.path("#/registeredService");
         }
         $scope.markComplete = function(registeredService) {
             RegisteredService.markRegisteredServiceComplete(registeredService).then(function() {
@@ -101,14 +124,19 @@ angular.module("hotelApp", ['ngRoute'])
             alert(response);
         });
     })
-    .controller("CompleteBooking", function($scope, $location, Booking) {
-        $scope.header="Mark Booking as Complete ";
+    .controller("CompleteBooking", function($scope, $location,$routeParams, Booking) {
+        Booking.getBooking($routeParams.id).then(function(doc) {
+          $scope.booking = doc.data;
+          $scope.header="Mark Booking as Complete";
+        });
+
         $scope.back = function() {
-            $location.path("#/");
+            $location.path("booking");
         }
+
         $scope.markComplete = function(booking) {
             Booking.markBookingComplete(booking).then(function() {
-                $location.path("#/booking");
+                $location.path("booking");
             }, function(response) {
                 alert(response);
             });
