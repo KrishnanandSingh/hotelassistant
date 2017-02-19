@@ -64,8 +64,8 @@ function ActionHandler(action, parameters, contexts, res) {
                 }
                 else {
                     return res.status(200).json({
-                        speech: "Quantity for the food " + parameters.foodItem + "was not found"
-                        , displayText: "Please specify food quantity for " + parameters.foodItem
+                        speech: "How many serves do you want for " + parameters.foodItem + "?";
+                        , displayText: "How many serves do you want for " + parameters.foodItem + "?";
                         , source: "webhook"
                     });
                 }
