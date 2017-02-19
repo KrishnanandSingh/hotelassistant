@@ -100,10 +100,7 @@ angular.module("hotelApp", ['ngRoute'])
         RegisteredService.getRegisteredService($routeParams.id).then(function(doc) {
           $scope.header="Mark RegisteredServices as Complete";
           $scope.registeredService = doc.data;
-        },
-        function(response) {
-           alert(response);
-       });
+        });
 
         $scope.back = function() {
             $location.path("#/registeredService");
