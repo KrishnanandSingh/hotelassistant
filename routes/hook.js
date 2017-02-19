@@ -56,10 +56,11 @@ function ActionHandler(action,parameters,contexts,res){
 
 function locateActionHandler(name,res){
   Location.findOne({"name":name}, function(err,data){
-    if(err || data == null){
-      return res.status(200).send("Unable to locate "+ name);
+    if(err){
+      return res.status(200).send("Unable to find "+ name);
     }else{
       res.status(200).json({
+        //if null send null response
         speech:data.path,
         displayText:data.path,
         source:"webhook"
