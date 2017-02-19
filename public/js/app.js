@@ -26,7 +26,7 @@ angular.module("hotelApp", ['ngRoute'])
             })
             .when("/booking/:id", {
                 controller: "CompleteBooking",
-                templateUrl: "CompleteBooking.html"
+                templateUrl: "completeBooking.html"
             })
             .otherwise({
                 redirectTo: "/registeredService"
