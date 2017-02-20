@@ -47,7 +47,7 @@ function ActionHandler(action, parameters, contexts,resolvedQuery, res) {
     case 'roomService':
         if (parameters.service) {
             var service = parameters.service;
-            roomServiceActionHandler(service, res);
+            roomServiceActionHandler(service,resolvedQuery, res);
         }
         else {
             roomServiceActionResolver(parameters);
@@ -116,26 +116,6 @@ function bookingActionHandler(service, dateTime, res) {
         }
         else {
             var response = "Booking request for " + service + " at " + dateTime + " registered";
-            res.status(200).json({
-                speech: response
-                , displayText: response
-                , source: "webhook"
-            });
-        }
-    });
-}
-
-function roomServiceActionHandler(service, res) {
-    var newRegisteredService = new RegisteredService();
-    newRegisteredService.service = service;
-    newRegisteredService.room = "004";
-    newRegisteredService.isComplete = false;
-    newRegisteredService.save(function (err, savedRegisteredService) {
-        if (err) {
-            return res.status(500).send();
-        }
-        else {
-            var response = "Room service request for " + service + " registered";
             res.status(200).json({
                 speech: response
                 , displayText: response
