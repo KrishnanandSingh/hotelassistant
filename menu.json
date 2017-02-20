@@ -1,0 +1,35 @@
+[
+{
+  "name":"Idly",
+  "meal":"breakfast",
+  "tag":[
+    "South",
+    "Rice"
+  ]
+},
+{
+  "name":"Dosa",
+  "meal":"breakfast",
+  "tag":[
+    "South",
+    "Rice"
+  ]
+},
+{
+  "name":"Vada",
+  "meal":"breakfast",
+  "tag":[
+    "South",
+    "Dal"
+  ]
+},
+{
+  "name":"Upma",
+  "meal":"breakfast",
+  "tag":[
+    "South",
+    "Wheat"
+  ]
+},
+
+]

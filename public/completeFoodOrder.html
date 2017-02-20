@@ -1,0 +1,29 @@
+<div class="row" ng-hide="foodOrder._id">
+  <div class="col-md-5">
+      <h2>{{header}}</h2>
+  </div>
+</div>
+<div class="container">
+  <div>
+    <p>
+      <label>Item</label>
+      <input class="form-control" type="text" readonly  value="{{foodOrder.item}}" >
+    </p>
+    <p>
+      <label>Quantity</label>
+      <input class="form-control" type="text" readonly  value="{{foodOrder.quantity}}" >
+    </p>
+    <p>
+      <label>Room</label>
+      <input class="form-control" type="text" readonly  value="{{foodOrder.room}}" >
+    </p>
+    <p>
+      <label>Comment</label>
+      <input class="form-control" type="text" ng-model="foodOrder.comment" required>
+    </p>
+    <p>
+      <button style="margin-top:20px" class="btn btn-default" ng-click="markComplete(foodOrder)">Complete</button>
+      <button style="margin-top:20px" class="btn btn-default" ng-click="back()">Back</button>
+    </p>
+  </div>
+</div>

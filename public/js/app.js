@@ -28,6 +28,14 @@ angular.module("hotelApp", ['ngRoute'])
                 controller: "CompleteBooking",
                 templateUrl: "completeBooking.html"
             })
+            .when("/foodOrder", {
+                controller: "FoodOrderList",
+                templateUrl: "foodOrderList.html"
+            })
+            .when("/foodOrder/:id", {
+                controller: "CompleteFoodOrder",
+                templateUrl: "completeFoodOrder.html"
+            })
             .otherwise({
                 redirectTo: "/registeredService"
             })
@@ -88,6 +96,34 @@ angular.module("hotelApp", ['ngRoute'])
                 });
         }
     })
+    .service("FoodOrder", function($http) {
+        this.getFoodOrders = function() {
+            return $http.get("api/foodOrder").
+                then(function(response) {
+                    return response;
+                }, function(response) {
+                    alert("Error finding foodOrders.");
+                });
+        }
+        this.getFoodOrder = function(foodOrderId) {
+            return $http.get("api/foodOrder/"+foodOrderId).
+                then(function(response) {
+                    return response;
+                }, function(response) {
+                    alert("Error finding foodOrder");
+                });
+        }
+        this.markFoodOrderComplete = function( foodOrder) {
+            var url = "api/foodOrder/"+foodOrder._id+"/complete";
+            return $http.put(url,foodOrder).
+                then(function(response) {
+                    return response;
+                }, function(response) {
+                    alert("Error");
+                    console.log(response);
+                });
+        }
+    })
     .controller("RegisteredServiceList", function( $scope, RegisteredService) {
         RegisteredService.getRegisteredServices().then(function(doc) {
             $scope.headers = ["Service","Comment","Room", "Actions"];
@@ -115,7 +151,7 @@ angular.module("hotelApp", ['ngRoute'])
     })
     .controller("BookingList", function( $scope, Booking) {
         Booking.getBookings().then(function(doc) {
-            $scope.headers = ["Service", "Time", "Comment", "Customer", "Actions"];
+            $scope.headers = ["Service", "Time", "Customer", "Actions"];
             $scope.bookings = doc.data;
         }, function(response) {
             alert(response);
@@ -134,6 +170,32 @@ angular.module("hotelApp", ['ngRoute'])
         $scope.markComplete = function(booking) {
             Booking.markBookingComplete(booking).then(function() {
                 $location.path("booking");
+            }, function(response) {
+                alert(response);
+            });
+        }
+    })
+    .controller("FoodOrderList", function( $scope, FoodOrder) {
+        FoodOrder.getFoodOrders().then(function(doc) {
+            $scope.headers = ["Item", "Quantity", "Room", "Actions"];
+            $scope.foodOrders = doc.data;
+        }, function(response) {
+            alert(response);
+        });
+    })
+    .controller("CompleteFoodOrder", function($scope, $location,$routeParams, FoodOrder) {
+        FoodOrder.getFoodOrder($routeParams.id).then(function(doc) {
+          $scope.foodOrder = doc.data;
+          $scope.header="Mark FoodOrder as Complete";
+        });
+
+        $scope.back = function() {
+            $location.path("foodOrder");
+        }
+
+        $scope.markComplete = function(foodOrder) {
+            FoodOrder.markFoodOrderComplete(foodOrder).then(function() {
+                $location.path("foodOrder");
             }, function(response) {
                 alert(response);
             });

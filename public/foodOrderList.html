@@ -1,0 +1,30 @@
+<div class = "row">
+  <h2>
+    Pending Orders
+  </h2>
+</div>
+<div class="container">
+  <table class="table table-hover">
+    <thead>
+      <th ng-repeat= "header in headers">
+        <a> {{headers[$index]}} </a>
+    </th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="foodOrder in foodOrders | orderBy:'time'" style="cursor:pointer">
+        <td>
+          {{ foodOrder.item }}
+        </td>
+        <td>
+           {{ foodOrder.quantity }}
+        </td>
+        <td>
+           {{ foodOrder.room }}
+        </td>
+        <td>
+           <a class="btn btn-info" href="#/foodOrder/{{foodOrder._id}}">Complete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
