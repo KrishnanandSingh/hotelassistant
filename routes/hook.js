@@ -2,6 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var Location = mongoose.model('Location');
 var Booking = mongoose.model('Booking');
+var FoodOrder = mongoose.model('FoodOrder');
 var RegisteredService = mongoose.model('RegisteredService');
 var router = express.Router();
 
@@ -14,12 +15,13 @@ router.post('/', function (req, res, next) {
         var action = requestBody.result.action;
         var parameters = requestBody.result.parameters;
         var contexts =  requestBody.result.contexts;
-        ActionHandler(action,parameters,contexts,res);
+        var resolvedQuery = requestBody.result.resolvedQuery;
+        ActionHandler(action,parameters,contexts,resolvedQuery,res);
       }
     }
   }
 });
-function ActionHandler(action,parameters,contexts,res){
+function ActionHandler(action,parameters,contexts,resolvedQuery,res){
     switch (action) {
       case 'locate':
         if(parameters.location){
@@ -43,10 +45,20 @@ function ActionHandler(action,parameters,contexts,res){
       case 'roomService':
         if(parameters.service){
           var service = parameters.service;
-          roomServiceActionHandler(service,res);
+          roomServiceActionHandler(service,resolvedQuery,res);
         }
         else{
           roomServiceActionResolver(parameters);
+        }
+      break;
+      case 'foodOrder':
+        if(parameters.item){
+          item = parameters.item;
+          quantity = parameters.quantity;
+          orderFoodActionHandler(item,quantity,res);
+        }
+        else{
+          locateActionResolver(parameters);
         }
       break;
       default:
@@ -91,8 +103,9 @@ function bookingActionHandler(service,dateTime,res){
       }
   });
 }
-function roomServiceActionHandler(service,res){
+function roomServiceActionHandler(service,comment,res){
   var newRegisteredService = new RegisteredService();
+  newRegisteredService.comment = comment;
   newRegisteredService.service = service;
   newRegisteredService.room = "004";
   newRegisteredService.isComplete = false;
@@ -101,6 +114,25 @@ function roomServiceActionHandler(service,res){
         return res.status(500).send();
       }else{
         var response = "Room service request for "+service+ " registered";
+        res.status(200).json({
+          speech:response,
+          displayText:response,
+          source:"webhook"
+        });
+      }
+  });
+}
+function orderFoodActionHandler(item,quantity,res){
+  var newFoodOrder = new FoodOrder();
+  newFoodOrder.item = item;
+  newFoodOrder.room = "004";
+  newFoodOrder.quantity = quantity;
+  newFoodOrder.isComplete = false;
+  newFoodOrder.save(function(err,savedFoodOrder){
+      if(err){
+        return res.status(500).send();
+      }else{
+        var response = "Order for "+item+ " placed";
         res.status(200).json({
           speech:response,
           displayText:response,

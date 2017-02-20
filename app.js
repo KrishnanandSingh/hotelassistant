@@ -7,12 +7,14 @@ var db = require('./models/db');
 var location = require('./models/location');
 var registeredService = require('./models/registeredService');
 var booking = require('./models/booking');
+var foodOrder = require('./models/foodOrder');
 
 
 var index = require('./routes/index');
 var hook = require('./routes/hook');
 var bookingRoute = require('./routes/booking');
 var registeredServiceRoute = require('./routes/registeredService');
+var foodOrderRoute = require('./routes/foodOrder');
 
 var app = express();
 
@@ -26,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/', index);
 app.use('/api/booking', bookingRoute);
 app.use('/api/registeredService', registeredServiceRoute);
+app.use('/api/foodOrder', foodOrderRoute);
 app.use('/webhook', hook);
 
 // catch 404 and forward to error handler
