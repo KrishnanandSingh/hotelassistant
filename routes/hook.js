@@ -214,23 +214,4 @@ function roomServiceActionHandler(service,comment,res){
       }
   });
 }
-function orderFoodActionHandler(item,quantity,res){
-  var newFoodOrder = new FoodOrder();
-  newFoodOrder.item = item;
-  newFoodOrder.room = "004";
-  newFoodOrder.quantity = quantity;
-  newFoodOrder.isComplete = false;
-  newFoodOrder.save(function(err,savedFoodOrder){
-      if(err){
-        return res.status(500).send();
-      }else{
-        var response = "Order for "+item+ " placed";
-        res.status(200).json({
-          speech:response,
-          displayText:response,
-          source:"webhook"
-        });
-      }
-  });
-}
 module.exports = router;
