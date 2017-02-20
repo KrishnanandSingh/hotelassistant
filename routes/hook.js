@@ -23,7 +23,7 @@ router.post('/', function (req, res, next) {
 });
 
 
-function ActionHandler(action, parameters, contexts, res) {
+function ActionHandler(action, parameters, contexts,resolvedQuery, res) {
     switch (action) {
     case 'locate':
         if (parameters.location) {
@@ -146,11 +146,23 @@ function roomServiceActionHandler(service, res) {
 }
 
 function orderFoodActionHandler(foodType, foodItem, foodQuantity, res) {
-    var response = "Order for " + foodItem + " is registered";
-    res.status(200).json({
-        speech: response
-        , displayText: response
-        , source: "webhook"
+  var newFoodOrder = new FoodOrder();
+  newFoodOrder.item = foodType+ "/" +foodItem;
+  newFoodOrder.room = "004";
+  newFoodOrder.quantity = foodQuantity;
+  newFoodOrder.isComplete = false;
+  newFoodOrder.save(function (err, savedRegisteredService) {
+      if (err) {
+          return res.status(500).send();
+      }
+      else {
+        var response = "Order for " + foodItem + " is registered";
+        res.status(200).json({
+          speech: response
+          , displayText: response
+          , source: "webhook"
+        });
+      }
     });
 }
 
