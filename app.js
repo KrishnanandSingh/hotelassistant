@@ -6,22 +6,16 @@ var db = require('./models/db');
 var location = require('./models/location');
 var registeredService = require('./models/registeredService');
 var booking = require('./models/booking');
-<<<<<<< HEAD
 var food = require('./models/food');
-=======
 var foodOrder = require('./models/foodOrder');
 
 
->>>>>>> origin/master
 var index = require('./routes/index');
 var hook = require('./routes/hook');
 var bookingRoute = require('./routes/booking');
 var registeredServiceRoute = require('./routes/registeredService');
-<<<<<<< HEAD
-=======
 var foodOrderRoute = require('./routes/foodOrder');
 
->>>>>>> origin/master
 var app = express();
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
